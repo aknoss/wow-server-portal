@@ -1,0 +1,47 @@
+body {
+  font-family:
+    "Roboto",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  width: 100%;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  margin-left: 4px;
+}
+
+button {
+  cursor: pointer;
+  width: 100%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-top: 4px;
+}
+
+a {
+  display: block;
+  margin-top: 8px;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+label {
+  display: block;
+  width: 110px;
+}
