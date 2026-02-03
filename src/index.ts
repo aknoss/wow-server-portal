@@ -7,13 +7,15 @@ const PORT = 3000;
 const app = express();
 
 app.use(express.static("public"));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 app.get("/", (_req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+  res.render("index");
 });
 
 app.get("/signup", (_req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "..", "public", "signup.html"));
+  res.render("signup");
 });
 
 app.listen(PORT, () => {
