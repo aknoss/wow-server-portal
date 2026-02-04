@@ -15,21 +15,10 @@
   </head>
   <body>
     <header>
-      <h1>Signup</h1>
+      <h1>Error</h1>
     </header>
     <main>
-      <form method="POST" action="/signup">
-        <div class="input-group">
-          <label for="username">Username</label>
-          <input id="username" name="username" />
-        </div>
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" />
-        </div>
-        <button type="submit">Create account</button>
-        <a href="/">Go back</a>
-      </form>
+      <p><%= message %></p>
     </main>
   </body>
 </html>

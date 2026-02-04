@@ -1,11 +1,13 @@
 import express from "express";
 import path from "path";
+import { signupController } from "./controllers/signupController";
 import type { Request, Response } from "express";
 
 const PORT = 3000;
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -17,6 +19,8 @@ app.get("/", (_req: Request, res: Response) => {
 app.get("/signup", (_req: Request, res: Response) => {
   res.render("signup");
 });
+
+app.post("/signup", signupController);
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}`);
