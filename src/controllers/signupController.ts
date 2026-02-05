@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { pool } from "../db";
+import { RowDataPacket } from "mysql2";
 
 const MIN_LENGTH = 4;
 const MAX_LENGTH = 32;
@@ -7,7 +9,7 @@ function renderError(res: Response, error: string) {
   res.render("signup", { error });
 }
 
-export function signupController(req: Request, res: Response) {
+export async function signupController(req: Request, res: Response) {
   const { username, password } = req.body;
 
   if (typeof username !== "string" || typeof password !== "string") {
@@ -44,5 +46,19 @@ export function signupController(req: Request, res: Response) {
     return;
   }
 
-  res.send("Hello world");
+  try {
+    const [rows] = await pool.query<RowDataPacket[]>(
+      `SELECT 1 FROM account WHERE username = ? LIMIT 1;`,
+      [username],
+    );
+
+    if (rows.length > 0) {
+      renderError(res, "User already exists. Try another one.");
+      return;
+    }
+  } catch (error) {
+    console.error(error);
+    renderError(res, "Something went wrong.");
+    return;
+  }
 }
