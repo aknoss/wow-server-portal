@@ -79,11 +79,13 @@ export async function signupController(req: Request, res: Response) {
     return;
   }
 
+  const upUsername = username.toUpperCase();
+
   // Check if user already exists
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
       `SELECT 1 FROM account WHERE username = ? LIMIT 1;`,
-      [username],
+      [upUsername],
     );
 
     if (rows.length > 0) {
@@ -98,12 +100,12 @@ export async function signupController(req: Request, res: Response) {
 
   const salt = crypto.randomBytes(32);
   const verifier = generateVerifier(username, password, salt);
-  const saltHex = salt.toString("hex");
-  const verifierHex = verifier.toString("hex");
+  const saltHex = salt.toString("hex").toUpperCase();
+  const verifierHex = verifier.toString("hex").toUpperCase();
 
   try {
     await pool.query(`INSERT INTO account (username, s, v) VALUES (?, ?, ?)`, [
-      username.toUpperCase(),
+      upUsername,
       saltHex,
       verifierHex,
     ]);
