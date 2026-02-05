@@ -17,7 +17,7 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.get("/signup", (_req: Request, res: Response) => {
-  res.render("signup");
+  res.render("signup", { error: null });
 });
 
 app.post("/signup", signupController);

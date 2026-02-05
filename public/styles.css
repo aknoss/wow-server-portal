@@ -36,12 +36,17 @@ a {
   margin-top: 8px;
 }
 
+label {
+  display: block;
+  width: 110px;
+}
+
 .input-group {
   display: flex;
   margin-bottom: 4px;
 }
 
-label {
-  display: block;
-  width: 110px;
+.error {
+  color: red;
+  font-size: 14px;
 }
