@@ -79,7 +79,7 @@ export async function signupController(req: Request, res: Response) {
 
   try {
     await pool.query(
-      `INSERT INTO account (username, s, v, expansion) VALUES (?, ?, ?)`,
+      `INSERT INTO account (username, s, v, expansion) VALUES (?, ?, ?, ?)`,
       [upUsername, salt, verifier, TBC_EXPANSION],
     );
 
