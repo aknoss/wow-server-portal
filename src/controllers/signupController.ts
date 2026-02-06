@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { pool } from "../db";
 import { RowDataPacket } from "mysql2";
-import { hashUP, SRP } from "../utils/srp";
+import { generateSRP } from "../utils/srp";
 
 const MIN_LENGTH = 4;
 const MAX_LENGTH = 32;
@@ -74,19 +74,13 @@ export async function signupController(req: Request, res: Response) {
     return;
   }
 
-  const srp = new SRP();
-  srp.generateSalt();
-  const rIHex = hashUP(username, password);
-  srp.computeVerifier(rIHex);
-
-  const saltHex = srp.getSalt();
-  const verifierHex = srp.getVerifier();
+  const { salt, verifier } = generateSRP(username, password);
 
   try {
     await pool.query(`INSERT INTO account (username, s, v) VALUES (?, ?, ?)`, [
       upUsername,
-      saltHex,
-      verifierHex,
+      salt,
+      verifier,
     ]);
 
     res.render("signup-success", { username });
