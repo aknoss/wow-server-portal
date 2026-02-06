@@ -83,6 +83,7 @@ export async function signupController(req: Request, res: Response) {
       verifier,
     ]);
 
+    console.log(`Account ${username} created with success.`);
     res.render("signup-success", { username });
   } catch (error) {
     console.error(error);
