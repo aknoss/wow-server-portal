@@ -5,6 +5,7 @@ import { generateSRP } from "../utils/srp";
 
 const MIN_LENGTH = 4;
 const MAX_LENGTH = 32;
+const TBC_EXPANSION = 1;
 
 function renderError(res: Response, error: string) {
   res.render("signup", { error });
@@ -77,11 +78,10 @@ export async function signupController(req: Request, res: Response) {
   const { salt, verifier } = generateSRP(username, password);
 
   try {
-    await pool.query(`INSERT INTO account (username, s, v) VALUES (?, ?, ?)`, [
-      upUsername,
-      salt,
-      verifier,
-    ]);
+    await pool.query(
+      `INSERT INTO account (username, s, v, expansion) VALUES (?, ?, ?)`,
+      [upUsername, salt, verifier, TBC_EXPANSION],
+    );
 
     console.log(`Account ${username} created with success.`);
     res.render("signup-success", { username });
