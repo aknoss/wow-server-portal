@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "lint": "eslint .",
     "format": "prettier -w src",
-    "build": "tsc && cp -r src/views dist/views",
+    "build": "tsc && cp -r src/views dist",
     "start": "node dist/index.js"
   },
   "keywords": [],
