@@ -10,9 +10,11 @@ The WoW server is implemented with [cmangos TBC](https://cmangos.net/).
 
 The authentication uses SRP (Secure Remote Password protocol) to hash the password.
 
-## Production
+## Environment variables
 
 - Create a `.env` file and add database credentials following the `.env.example` file.
+
+## Production
 
 - Install dependencies
 
