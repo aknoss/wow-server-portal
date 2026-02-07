@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { indexController } from "./controllers/indexController";
+import { homeController } from "./controllers/homeController";
 import { signupController } from "./controllers/signupController";
 import type { Request, Response } from "express";
 
@@ -13,7 +13,7 @@ app.use(express.static("public"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.get("/", indexController);
+app.get("/", homeController);
 
 app.get("/signup", (_req: Request, res: Response) => {
   res.render("signup", { error: null });

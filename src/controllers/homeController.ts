@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { pool } from "../db";
 import { RowDataPacket } from "mysql2";
 
-export async function indexController(_req: Request, res: Response) {
+export async function homeController(_req: Request, res: Response) {
   let isOnline: boolean | null = null;
 
   try {
