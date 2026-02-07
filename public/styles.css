@@ -56,3 +56,19 @@ label {
   justify-content: center;
   margin-bottom: -50px;
 }
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.online-status {
+  color: green;
+  font-weight: 500;
+}
+
+.offline-status {
+  color: red;
+  font-weight: 500;
+}

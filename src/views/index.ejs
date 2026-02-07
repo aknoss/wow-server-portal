@@ -20,7 +20,10 @@
       </div>
       <h1>Aknos' Server</h1>
     </header>
-    <main>
+    <main class="main-wrapper" >
+      <% if (isOnline !== null) { %>
+      <p>Server status: <span class="<%= isOnline ? "online-status" : "offline-status" %>"><%= isOnline ? "Online" : "Offline" %></span></p>
+      <% } %>
       <a href="/signup">Create account</a>
       <a href="https://drive.google.com/file/d/1dorEZA13-P78uxI4JsaYQfvpJY9U5Y0h/view?usp=sharing" target="_blank" rel="noopener noreferrer">Download client</a>
     </main>
