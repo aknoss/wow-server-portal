@@ -14,5 +14,7 @@ export async function homeController(_req: Request, res: Response) {
     console.error(error);
   }
 
+  // Client cache of 30 seconds
+  res.set("Cache-Control", "public, max-age=30");
   res.render("index", { isOnline });
 }
