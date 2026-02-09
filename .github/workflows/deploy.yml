@@ -20,6 +20,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
+            export PATH=$PATH:/usr/local/bin
             cd ~/wow-server-portal
             git pull origin main
             npm install
