@@ -21,6 +21,6 @@ app.get("/signup", (_req: Request, res: Response) => {
 
 app.post("/signup", signupController);
 
-app.listen(PORT, () => {
+app.listen(PORT, "::", () => {
   console.log(`Server running on PORT ${PORT}`);
 });
