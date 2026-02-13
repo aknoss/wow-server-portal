@@ -41,9 +41,14 @@ a {
   margin-top: 20px;
 }
 
-label {
+.signup-label {
   display: block;
   width: 250px;
+}
+
+.reset-password-label {
+  display: block;
+  width: 450px;
 }
 
 .input-group {
