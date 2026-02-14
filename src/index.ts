@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { homeController } from "./controllers/homeController";
 import { signupController } from "./controllers/signupController";
-import { resetPasswordController } from "./controllers/resetPasswordController";
+import { changePasswordController } from "./controllers/changePasswordController";
 import type { Request, Response } from "express";
 
 const PORT = 3000;
@@ -21,10 +21,10 @@ app.get("/signup", (_req: Request, res: Response) => {
 });
 app.post("/signup", signupController);
 
-app.get("/reset-password", (_req: Request, res: Response) => {
-  res.render("reset-password", { error: null });
+app.get("/change-password", (_req: Request, res: Response) => {
+  res.render("change-password", { error: null });
 });
-app.post("/reset-password", resetPasswordController);
+app.post("/change-password", changePasswordController);
 
 app.listen(PORT, "::", () => {
   console.log(`Server running on PORT ${PORT}`);

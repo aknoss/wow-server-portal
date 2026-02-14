@@ -11,7 +11,7 @@ function renderError(res: Response, error: string) {
   res.render("reset-password", { error });
 }
 
-export async function resetPasswordController(req: Request, res: Response) {
+export async function changePasswordController(req: Request, res: Response) {
   const { username, password } = req.body;
 
   if (typeof username !== "string" || typeof password !== "string") {

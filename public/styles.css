@@ -46,9 +46,10 @@ a {
   width: 250px;
 }
 
-.reset-password-label {
+.change-password-label {
   display: block;
-  width: 450px;
+  width: 400px;
+  font-size: 20px;
 }
 
 .input-group {
