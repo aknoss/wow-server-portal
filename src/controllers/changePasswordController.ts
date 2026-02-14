@@ -3,6 +3,7 @@ import { pool } from "../db";
 import { RowDataPacket } from "mysql2";
 import { generateSRP } from "../utils/srp";
 import {
+  TBC_EXPANSION,
   USER_PASSWORD_MAX_LENGTH,
   USER_PASSWORD_MIN_LENGTH,
 } from "../utils/constants";
