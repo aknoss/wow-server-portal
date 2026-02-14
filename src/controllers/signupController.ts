@@ -78,6 +78,7 @@ export async function signupController(req: Request, res: Response) {
 
   const { salt, verifier } = generateSRP(username, password);
 
+  // Create account
   try {
     await pool.query(
       `INSERT INTO tbcrealmd.account (username, s, v, expansion) VALUES (?, ?, ?, ?)`,

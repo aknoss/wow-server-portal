@@ -44,19 +44,23 @@ export async function changePasswordController(req: Request, res: Response) {
   }
 
   if (username.includes(" ")) {
-    return renderError(res, "Username must not contain spaces.");
+    renderError(res, "Username must not contain spaces.");
+    return;
   }
 
   if (password.includes(" ")) {
-    return renderError(res, "Password must not contain spaces.");
+    renderError(res, "Password must not contain spaces.");
+    return;
   }
 
   if (newPassword.includes(" ")) {
-    return renderError(res, "New password must not contain spaces.");
+    renderError(res, "New password must not contain spaces.");
+    return;
   }
 
   if (confirmNewPassword.includes(" ")) {
-    return renderError(res, "Confirm new password must not contain spaces.");
+    renderError(res, "Confirm new password must not contain spaces.");
+    return;
   }
 
   if (password === newPassword) {
@@ -100,8 +104,28 @@ export async function changePasswordController(req: Request, res: Response) {
     renderError(res, "Something went wrong.");
     return;
   }
-  console.log(user);
-  const { salt, verifier } = generateSRP(username, password);
+
+  const { salt, verifier } = generateSRP(username, newPassword);
 
   // Check if password matches
+  if (salt !== user.s || verifier !== user.v) {
+    renderError(res, "Current password is wrong.");
+    return;
+  }
+
+  // Update account with new password
+  try {
+    await pool.query(
+      `UPDATE tbcrealmd.account
+       SET s = ?, v = ?
+       WHERE username = ?`,
+      [salt, verifier, upUsername],
+    );
+
+    console.log(`Password changed with success.`);
+    res.render("change-password-success");
+  } catch (error) {
+    console.error(error);
+    renderError(res, "Something went wrong.");
+  }
 }
