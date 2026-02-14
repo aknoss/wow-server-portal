@@ -15,10 +15,6 @@ function renderError(res: Response, error: string) {
 export async function signupController(req: Request, res: Response) {
   const { username, password } = req.body;
 
-  if (typeof username !== "string" || typeof password !== "string") {
-    renderError(res, "Invalid input.");
-  }
-
   if (!username) {
     renderError(res, "Missing username.");
     return;
@@ -27,6 +23,10 @@ export async function signupController(req: Request, res: Response) {
   if (!password) {
     renderError(res, "Missing password.");
     return;
+  }
+
+  if (typeof username !== "string" || typeof password !== "string") {
+    renderError(res, "Invalid input.");
   }
 
   if (username.includes(" ")) {

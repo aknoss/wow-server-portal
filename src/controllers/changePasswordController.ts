@@ -13,11 +13,7 @@ function renderError(res: Response, error: string) {
 }
 
 export async function changePasswordController(req: Request, res: Response) {
-  const { username, password } = req.body;
-
-  if (typeof username !== "string" || typeof password !== "string") {
-    renderError(res, "Invalid input.");
-  }
+  const { username, password, newPassword, confirmNewPassword } = req.body;
 
   if (!username) {
     renderError(res, "Missing username.");
@@ -27,6 +23,25 @@ export async function changePasswordController(req: Request, res: Response) {
   if (!password) {
     renderError(res, "Missing password.");
     return;
+  }
+
+  if (!newPassword) {
+    renderError(res, "Missing new password.");
+    return;
+  }
+
+  if (!confirmNewPassword) {
+    renderError(res, "Missing confirm new password.");
+    return;
+  }
+
+  if (
+    typeof username !== "string" ||
+    typeof password !== "string" ||
+    typeof newPassword !== "string" ||
+    typeof confirmNewPassword !== "string"
+  ) {
+    renderError(res, "Invalid input.");
   }
 
   if (username.includes(" ")) {
