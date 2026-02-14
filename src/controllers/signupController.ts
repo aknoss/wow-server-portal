@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { pool } from "../db";
 import { RowDataPacket } from "mysql2";
 import { generateSRP } from "../utils/srp";
-
-const MIN_LENGTH = 4;
-const MAX_LENGTH = 32;
-const TBC_EXPANSION = 1;
+import {
+  TBC_EXPANSION,
+  USER_PASSWORD_MAX_LENGTH,
+  USER_PASSWORD_MIN_LENGTH,
+} from "../utils/constants";
 
 function renderError(res: Response, error: string) {
   res.render("signup", { error });
@@ -36,22 +37,22 @@ export async function signupController(req: Request, res: Response) {
     return renderError(res, "Password must not contain spaces.");
   }
 
-  if (username.length < MIN_LENGTH) {
+  if (username.length < USER_PASSWORD_MIN_LENGTH) {
     renderError(res, "Username must be at least 4 characters.");
     return;
   }
 
-  if (username.length > MAX_LENGTH) {
+  if (username.length > USER_PASSWORD_MAX_LENGTH) {
     renderError(res, "Username must be at most 32 characters.");
     return;
   }
 
-  if (password.length < MIN_LENGTH) {
+  if (password.length < USER_PASSWORD_MIN_LENGTH) {
     renderError(res, "Password must be at least 4 characters.");
     return;
   }
 
-  if (password.length > MAX_LENGTH) {
+  if (password.length > USER_PASSWORD_MAX_LENGTH) {
     renderError(res, "Password must be at most 32 characters.");
     return;
   }
