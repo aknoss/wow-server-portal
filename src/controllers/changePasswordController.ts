@@ -52,6 +52,14 @@ export async function changePasswordController(req: Request, res: Response) {
     return renderError(res, "Password must not contain spaces.");
   }
 
+  if (newPassword.includes(" ")) {
+    return renderError(res, "New password must not contain spaces.");
+  }
+
+  if (confirmNewPassword.includes(" ")) {
+    return renderError(res, "Confirm new password must not contain spaces.");
+  }
+
   if (username.length < USER_PASSWORD_MIN_LENGTH) {
     renderError(res, "Username must be at least 4 characters.");
     return;
@@ -72,17 +80,37 @@ export async function changePasswordController(req: Request, res: Response) {
     return;
   }
 
+  if (newPassword.length < USER_PASSWORD_MIN_LENGTH) {
+    renderError(res, "New password must be at least 4 characters.");
+    return;
+  }
+
+  if (newPassword.length > USER_PASSWORD_MAX_LENGTH) {
+    renderError(res, "New password must be at most 32 characters.");
+    return;
+  }
+
+  if (confirmNewPassword.length < USER_PASSWORD_MIN_LENGTH) {
+    renderError(res, "Confirm new password must be at least 4 characters.");
+    return;
+  }
+
+  if (confirmNewPassword.length > USER_PASSWORD_MAX_LENGTH) {
+    renderError(res, "Confirm new password must be at most 32 characters.");
+    return;
+  }
+
   const upUsername = username.toUpperCase();
 
-  // Check if user already exists
+  // Check if user
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
       `SELECT 1 FROM tbcrealmd.account WHERE username = ? LIMIT 1;`,
       [upUsername],
     );
 
-    if (rows.length > 0) {
-      renderError(res, "User already exists. Try another one.");
+    if (rows.length === 0) {
+      renderError(res, "User does not exist.");
       return;
     }
   } catch (error) {
