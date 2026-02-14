@@ -3,13 +3,12 @@ import { pool } from "../db";
 import { RowDataPacket } from "mysql2";
 import { generateSRP } from "../utils/srp";
 import {
-  TBC_EXPANSION,
   USER_PASSWORD_MAX_LENGTH,
   USER_PASSWORD_MIN_LENGTH,
 } from "../utils/constants";
 
 function renderError(res: Response, error: string) {
-  res.render("reset-password", { error });
+  res.render("change-password", { error });
 }
 
 export async function changePasswordController(req: Request, res: Response) {
@@ -60,23 +59,8 @@ export async function changePasswordController(req: Request, res: Response) {
     return renderError(res, "Confirm new password must not contain spaces.");
   }
 
-  if (username.length < USER_PASSWORD_MIN_LENGTH) {
-    renderError(res, "Username must be at least 4 characters.");
-    return;
-  }
-
-  if (username.length > USER_PASSWORD_MAX_LENGTH) {
-    renderError(res, "Username must be at most 32 characters.");
-    return;
-  }
-
-  if (password.length < USER_PASSWORD_MIN_LENGTH) {
-    renderError(res, "Password must be at least 4 characters.");
-    return;
-  }
-
-  if (password.length > USER_PASSWORD_MAX_LENGTH) {
-    renderError(res, "Password must be at most 32 characters.");
+  if (password === newPassword) {
+    renderError(res, "Current password and new password must be different.");
     return;
   }
 
@@ -90,22 +74,18 @@ export async function changePasswordController(req: Request, res: Response) {
     return;
   }
 
-  if (confirmNewPassword.length < USER_PASSWORD_MIN_LENGTH) {
-    renderError(res, "Confirm new password must be at least 4 characters.");
-    return;
-  }
-
-  if (confirmNewPassword.length > USER_PASSWORD_MAX_LENGTH) {
-    renderError(res, "Confirm new password must be at most 32 characters.");
+  if (newPassword !== confirmNewPassword) {
+    renderError(res, "New password and confirm new password must match.");
     return;
   }
 
   const upUsername = username.toUpperCase();
 
-  // Check if user
+  // Check if user exists
+  let user: RowDataPacket | null = null;
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
-      `SELECT 1 FROM tbcrealmd.account WHERE username = ? LIMIT 1;`,
+      `SELECT username, s, v FROM tbcrealmd.account WHERE username = ? LIMIT 1;`,
       [upUsername],
     );
 
@@ -113,24 +93,15 @@ export async function changePasswordController(req: Request, res: Response) {
       renderError(res, "User does not exist.");
       return;
     }
+
+    user = rows[0];
   } catch (error) {
     console.error(error);
     renderError(res, "Something went wrong.");
     return;
   }
-
+  console.log(user);
   const { salt, verifier } = generateSRP(username, password);
 
-  try {
-    await pool.query(
-      `INSERT INTO tbcrealmd.account (username, s, v, expansion) VALUES (?, ?, ?, ?)`,
-      [upUsername, salt, verifier, TBC_EXPANSION],
-    );
-
-    console.log(`Password changed successfully for user: ${username}.`);
-    res.render("reset-password-success", { username });
-  } catch (error) {
-    console.error(error);
-    renderError(res, "Something went wrong.");
-  }
+  // Check if password matches
 }
