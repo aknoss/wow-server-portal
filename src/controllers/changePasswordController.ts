@@ -41,6 +41,7 @@ export async function changePasswordController(req: Request, res: Response) {
     typeof confirmNewPassword !== "string"
   ) {
     renderError(res, "Invalid input.");
+    return;
   }
 
   if (username.includes(" ")) {
@@ -105,13 +106,21 @@ export async function changePasswordController(req: Request, res: Response) {
     return;
   }
 
-  const { salt, verifier } = generateSRP(username, newPassword);
+  // Check if current password matches
+  const { salt, verifier } = generateSRP(username, password);
 
-  // Check if password matches
+  console.log(salt, " ", verifier);
+  console.log(user);
   if (salt !== user.s || verifier !== user.v) {
     renderError(res, "Current password is wrong.");
     return;
   }
+
+  // Generate new salt and verifier
+  const { salt: newSalt, verifier: newVerifier } = generateSRP(
+    username,
+    newPassword,
+  );
 
   // Update account with new password
   try {
@@ -119,7 +128,7 @@ export async function changePasswordController(req: Request, res: Response) {
       `UPDATE tbcrealmd.account
        SET s = ?, v = ?
        WHERE username = ?`,
-      [salt, verifier, upUsername],
+      [newSalt, newVerifier, upUsername],
     );
 
     console.log(`Password changed with success.`);
