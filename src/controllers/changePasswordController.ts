@@ -107,11 +107,8 @@ export async function changePasswordController(req: Request, res: Response) {
   }
 
   // Check if current password matches
-  const { salt, verifier } = generateSRP(username, password);
-
-  console.log(salt, " ", verifier);
-  console.log(user);
-  if (salt !== user.s || verifier !== user.v) {
+  const { verifier } = generateSRP(username, password, user.s);
+  if (verifier !== user.v) {
     renderError(res, "Current password is wrong.");
     return;
   }
