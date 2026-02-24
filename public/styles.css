@@ -43,19 +43,30 @@ a {
 
 .signup-label {
   display: block;
-  width: 250px;
+
+  @media (min-width: 600px) {
+    width: 250px;
+  }
 }
 
 .change-password-label {
   display: block;
-  width: 400px;
   font-size: 20px;
+
+  @media (min-width: 600px) {
+    width: 400px;
+  }
 }
 
 .input-group {
   display: flex;
+  flex-direction: column;
   margin-bottom: 8px;
   align-items: center;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
 }
 
 .error {
