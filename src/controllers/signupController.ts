@@ -62,7 +62,7 @@ export async function signupController(req: Request, res: Response) {
   // Check if user already exists
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
-      `SELECT 1 FROM tbcrealmd.account WHERE username = ? LIMIT 1;`,
+      `SELECT 1 FROM acore_auth.account WHERE username = ? LIMIT 1;`,
       [upUsername],
     );
 
@@ -81,7 +81,7 @@ export async function signupController(req: Request, res: Response) {
   // Create account
   try {
     await pool.query(
-      `INSERT INTO tbcrealmd.account (username, s, v, expansion) VALUES (?, ?, ?, ?)`,
+      `INSERT INTO acore_auth.account (username, s, v, expansion) VALUES (?, ?, ?, ?)`,
       [upUsername, salt, verifier, TBC_EXPANSION],
     );
 

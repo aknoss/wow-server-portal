@@ -6,7 +6,7 @@ This is a web application to introduce users to my private World of Warcraft TBC
 - A link to download the game.
 - Main page to show the status of the server and information.
 
-The WoW server is implemented with [cmangos TBC](https://cmangos.net/).
+The WoW server is implemented with [AzerothCore](https://www.azerothcore.org/).
 
 The authentication uses SRP (Secure Remote Password protocol) to hash the password.
 

@@ -90,7 +90,7 @@ export async function changePasswordController(req: Request, res: Response) {
   let user: RowDataPacket | null = null;
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
-      `SELECT username, s, v FROM tbcrealmd.account WHERE username = ? LIMIT 1;`,
+      `SELECT username, s, v FROM acore_auth.account WHERE username = ? LIMIT 1;`,
       [upUsername],
     );
 
@@ -122,7 +122,7 @@ export async function changePasswordController(req: Request, res: Response) {
   // Update account with new password
   try {
     await pool.query(
-      `UPDATE tbcrealmd.account
+      `UPDATE acore_auth.account
        SET s = ?, v = ?
        WHERE username = ?`,
       [newSalt, newVerifier, upUsername],
