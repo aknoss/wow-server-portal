@@ -20,7 +20,7 @@ export async function homeController(_req: Request, res: Response) {
 
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
-      "SELECT 1 FROM tbccharacters.characters WHERE online = 1 LIMIT 1;",
+      "SELECT 1 FROM acore_characters.characters WHERE online = 1 LIMIT 1;",
     );
     cachedIsOnline = rows.length > 0;
     cachedAt = now;

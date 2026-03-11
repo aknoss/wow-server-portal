@@ -1,6 +1,6 @@
 # World of Warcraft Server Portal
 
-This is a web application to introduce users to my private World of Warcraft TBC server. It has three main functionalities:
+This is a web application to introduce users to my private World of Warcraft server. It has three main functionalities:
 
 - Signup page to create a game account directly in the game's database.
 - A link to download the game.
