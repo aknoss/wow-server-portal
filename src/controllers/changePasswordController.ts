@@ -90,7 +90,7 @@ export async function changePasswordController(req: Request, res: Response) {
   let user: RowDataPacket | null = null;
   try {
     const [rows] = await pool.query<RowDataPacket[]>(
-      `SELECT username, s, v FROM acore_auth.account WHERE username = ? LIMIT 1;`,
+      `SELECT username, salt, verifier FROM acore_auth.account WHERE username = ? LIMIT 1;`,
       [upUsername],
     );
 
@@ -123,7 +123,7 @@ export async function changePasswordController(req: Request, res: Response) {
   try {
     await pool.query(
       `UPDATE acore_auth.account
-       SET s = ?, v = ?
+       SET salt = ?, verifier = ?
        WHERE username = ?`,
       [newSalt, newVerifier, upUsername],
     );

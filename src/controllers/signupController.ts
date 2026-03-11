@@ -80,7 +80,7 @@ export async function signupController(req: Request, res: Response) {
   // Create account
   try {
     await pool.query(
-      `INSERT INTO acore_auth.account (username, s, v) VALUES (?, ?, ?)`,
+      `INSERT INTO acore_auth.account (username, salt, verifier) VALUES (?, ?, ?)`,
       [upUsername, salt, verifier],
     );
 
