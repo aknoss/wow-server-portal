@@ -18,13 +18,12 @@ function hashUP(username: string, password: string): string {
 export function generateSRP(
   username: string,
   password: string,
-  existentSaltString?: string,
-): { salt: string; verifier: string } {
+  existentSalt?: Buffer,
+): { salt: Buffer; verifier: Buffer } {
   // 1. Salt
-  let salt: Buffer<ArrayBuffer>;
-  if (existentSaltString) {
-    // Salt already exists, just generating a new verifier for comparing passwords
-    salt = Buffer.from(existentSaltString, "hex");
+  let salt: Buffer;
+  if (existentSalt) {
+    salt = existentSalt;
   } else {
     salt = crypto.randomBytes(S_BYTE_SIZE);
   }
@@ -53,7 +52,7 @@ export function generateSRP(
   }
 
   return {
-    salt: salt.toString("hex").toUpperCase(),
-    verifier: vBuf.toString("hex").toUpperCase(),
+    salt,
+    verifier: vBuf,
   };
 }

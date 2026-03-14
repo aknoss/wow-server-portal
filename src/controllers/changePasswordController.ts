@@ -107,8 +107,8 @@ export async function changePasswordController(req: Request, res: Response) {
   }
 
   // Check if current password matches
-  const { verifier } = generateSRP(username, password, user.s);
-  if (verifier !== user.v) {
+  const { verifier } = generateSRP(username, password, user.salt as Buffer);
+  if (!verifier.equals(user.verifier as Buffer)) {
     renderError(res, "Current password is wrong.");
     return;
   }
