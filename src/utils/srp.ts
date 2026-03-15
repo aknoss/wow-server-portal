@@ -4,8 +4,8 @@ import bigInt from "big-integer";
 const S_BYTE_SIZE = 32;
 
 // Helper to reverse a Buffer
-function reverse(buf: Buffer): Buffer {
-  return Buffer.from(buf).reverse();
+function reverse(buf: Buffer): Buffer<ArrayBuffer> {
+  return Buffer.from(buf).reverse() as Buffer<ArrayBuffer>;
 }
 
 // SHA1 hash of UPPER(username:password)
