@@ -28,11 +28,11 @@ export function generateSRP(
     salt = crypto.randomBytes(S_BYTE_SIZE);
   }
 
-  // 2. Compute x
+  // 2. Compute x = SHA1(salt || SHA1(UPPER(username:password)))
   const upHash = hashUP(username, password); // hex string
   const upBuf = Buffer.from(upHash, "hex");
   const sha = crypto.createHash("sha1");
-  sha.update(reverse(salt));
+  sha.update(salt);
   sha.update(upBuf);
   const x = bigInt.fromArray([...reverse(sha.digest())], 256);
 
@@ -44,12 +44,13 @@ export function generateSRP(
   const g = bigInt(7);
   const v = g.modPow(x, N);
 
-  // 4. Convert verifier to 32-byte uppercase hex
+  // 4. Convert verifier to 32-byte little-endian
   let vBuf = Buffer.from(v.toArray(256).value);
   if (vBuf.length < S_BYTE_SIZE) {
     const pad = Buffer.alloc(S_BYTE_SIZE - vBuf.length, 0);
     vBuf = Buffer.concat([pad, vBuf]);
   }
+  vBuf = reverse(vBuf);
 
   return {
     salt,
