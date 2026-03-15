@@ -3,6 +3,7 @@ import path from "path";
 import { homeController } from "./controllers/homeController";
 import { signupController } from "./controllers/signupController";
 import { changePasswordController } from "./controllers/changePasswordController";
+import { downloadController } from "./controllers/downloadController";
 import type { Request, Response } from "express";
 
 const PORT = 3000;
@@ -25,6 +26,8 @@ app.get("/change-password", (_req: Request, res: Response) => {
   res.render("change-password", { error: null });
 });
 app.post("/change-password", changePasswordController);
+
+app.get("/download", downloadController);
 
 app.listen(PORT, "::", () => {
   console.log(`Server running on PORT ${PORT}`);
